@@ -36,7 +36,6 @@ vector<vector<double>> inverseMatrix(vector<vector<double>> &matrix)
     // Создаем единичную матрицу
     vector<vector<double>> identity = createIdentityMatrix(n);
 
-    // Прямой ход
     for (int i = 0; i < n; i++)
     {
         // Поиск максимального элемента в столбце
@@ -49,15 +48,22 @@ vector<vector<double>> inverseMatrix(vector<vector<double>> &matrix)
             }
         }
 
-        // Перестановка строк, если необходимо
+        // Перестановка строк, если максимальный элемент не на диагонали
         if (maxRow != i)
         {
             swap(matrix[i], matrix[maxRow]);
             swap(identity[i], identity[maxRow]);
         }
 
-        // Деление строки на главный элемент
+        // Проверка того что главный элемент не равен 0, иначе определитель 0
         double pivot = matrix[i][i];
+        if (pivot - 0 < 0.0001)
+        {
+            cout << "Определитель матрицы равен 0!!!\n";
+            exit(1);
+        }
+        
+        // Деление строки на главный элемент
         for (int j = i; j < n; j++)
         {
             matrix[i][j] /= pivot;
