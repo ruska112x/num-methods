@@ -3,119 +3,84 @@
 
 using namespace std;
 
-// Функция для вывода матрицы
-void printMatrix(vector<vector<double>> &matrix)
-{
-    int n = matrix.size();
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            cout << matrix[i][j] << " ";
-        }
-        cout << endl;
+const double EPSILON = 1e-10;
+
+// Perform Gaussian elimination
+void gaussianElimination(vector<vector<double>> &A) {
+  int n = A.size();
+
+  for (int i = 0; i < n; i++) {
+    // Find the pivot row
+    int pivotRow = i;
+    for (int j = i + 1; j < n; j++) {
+      if (abs(A[j][i]) > abs(A[pivotRow][i]))
+        pivotRow = j;
     }
+
+    // Swap rows
+    if (pivotRow != i) {
+      swap(A[i], A[pivotRow]);
+    }
+
+    // Make the diagonal elements 1
+    double divisor = A[i][i];
+    for (int j = 0; j < n; j++) {
+      A[i][j] /= divisor;
+    }
+
+    // Eliminate non-zero elements below the diagonal
+    for (int j = i + 1; j < n; j++) {
+      double factor = A[j][i];
+      for (int k = 0; k < n; k++) {
+        A[j][k] -= factor * A[i][k];
+      }
+    }
+  }
 }
 
-// Функция для создания единичной матрицы
-vector<vector<double>> createIdentityMatrix(int n)
-{
-    vector<vector<double>> identity(n, vector<double>(n, 0));
-    for (int i = 0; i < n; i++)
-    {
-        identity[i][i] = 1;
+// Perform back substitution to find the inverse
+void backSubstitution(vector<vector<double>> &A) {
+  int n = A.size();
+
+  for (int i = n - 1; i >= 0; i--) {
+    for (int j = i - 1; j >= 0; j--) {
+      double factor = A[j][i];
+      for (int k = 0; k < n; k++) {
+        A[j][k] -= factor * A[i][k];
+      }
     }
-    return identity;
+  }
 }
 
-// Функция для нахождения обратной матрицы методом Гаусса с выбором главного элемента по строке
-vector<vector<double>> inverseMatrix(vector<vector<double>> &matrix)
-{
-    int n = matrix.size();
+// Function to find inverse matrix
+void inverseMatrix(vector<vector<double>> &matrix) {
+  int n = matrix.size();
 
-    // Создаем единичную матрицу
-    vector<vector<double>> identity = createIdentityMatrix(n);
+  // Perform Gaussian elimination
+  gaussianElimination(matrix);
 
-    for (int i = 0; i < n; i++)
-    {
-        // Поиск максимального элемента в столбце
-        int maxRow = i;
-        for (int j = i + 1; j < n; j++)
-        {
-            if (abs(matrix[j][i]) > abs(matrix[maxRow][i]))
-            {
-                maxRow = j;
-            }
-        }
-
-        // Перестановка строк, если максимальный элемент не на диагонали
-        if (maxRow != i)
-        {
-            swap(matrix[i], matrix[maxRow]);
-            swap(identity[i], identity[maxRow]);
-        }
-
-        // Проверка того что главный элемент не равен 0, иначе определитель 0
-        double pivot = matrix[i][i];
-        if (pivot - 0 < 0.0001)
-        {
-            cout << "Определитель матрицы равен 0!!!\n";
-            exit(1);
-        }
-        
-        // Деление строки на главный элемент
-        for (int j = i; j < n; j++)
-        {
-            matrix[i][j] /= pivot;
-        }
-        for (int j = 0; j < n; j++)
-        {
-            identity[i][j] /= pivot;
-        }
-
-        // Вычитание строк
-        for (int k = 0; k < n; k++)
-        {
-            if (k != i)
-            {
-                double factor = matrix[k][i];
-                for (int j = i; j < n; j++)
-                {
-                    matrix[k][j] -= factor * matrix[i][j];
-                }
-                for (int j = 0; j < n; j++)
-                {
-                    identity[k][j] -= factor * identity[i][j];
-                }
-            }
-        }
-    }
-
-    return identity;
+  // Perform back substitution
+  backSubstitution(matrix);
 }
 
-int main()
-{
-    int n;
-    cout << "Введите размерность квадратной матрицы: ";
-    cin >> n;
-
-    cout << "Введите элементы матрицы:" << endl;
-    vector<vector<double>> matrix(n, vector<double>(n));
-    for (int i = 0; i < n; i++)
-    {
-        for (int j = 0; j < n; j++)
-        {
-            cout << "[" << i << "]"
-                 << "[" << j << "]:";
-            cin >> matrix[i][j];
-        }
+// Function to print matrix
+void printMatrix(const vector<vector<double>> &matrix) {
+  for (const auto &row : matrix) {
+    for (double element : row) {
+      cout << element << " ";
     }
+    cout << endl;
+  }
+}
 
-    vector<vector<double>> inverse = inverseMatrix(matrix);
+int main() {
+  vector<vector<double>> matrix = {{1, 3, 3}, {1, 4, 3}, {1, 3, 4}};
+  cout << "Original Matrix:" << endl;
+  printMatrix(matrix);
 
-    cout << "Обратная матрица:" << endl;
-    printMatrix(inverse);
+  inverseMatrix(matrix);
+  cout << "Inverse Matrix:" << endl;
+  printMatrix(matrix);
 
-    return 0;
+  return 0;
 }
