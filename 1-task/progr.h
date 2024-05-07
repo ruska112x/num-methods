@@ -1,7 +1,6 @@
 #ifndef PROGR
 #define PROGR
 
-
 void mygen(double **a, double **a_inv, int n, double alpha, double beta,
            int sign_law, int lambda_law, int variant, int schema);
 void Q_matrix(double **Q, int n, int schema);
@@ -15,7 +14,7 @@ void Print(double **a, int n);
 double **readMatrix();
 void printMatrix(double **matrix, int size);
 double **createIdentityMatrix(int n);
-double** inverseMatrix(double** matrix, int n);
+double **inverseMatrix(double **matrix, int n);
 
 // ���� �������
 int your_lu_inv(double **a, int n); // ��������� �������
