@@ -40,7 +40,7 @@ int main()
 //-------------------------------------------------------------------------
 
 
-#include "progr.h"
+#include "progr/progr.h"
 #include <fstream>
 #include <iostream>
 #include <math.h>

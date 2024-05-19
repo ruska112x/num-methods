@@ -1,12 +1,24 @@
-default: all
+project = numeric1
 
-all: clean build run
+all: build exec
 
-build:
-	g++ -Wall progr.h progr.cpp
+run: reload exec
 
-run:
-	./a.out
+build: mkdir-build cmake-load cmake-build
+
+reload: cmake-load cmake-build
+
+mkdir-build:
+	[ -d ./build ] | mkdir -p build
+
+cmake-load:
+	cd build;cmake ..
+
+cmake-build:
+	cd build;cmake --build . --target $(project)
 
 clean:
-	rm -f a.out
+	rm -rf build
+
+exec:
+	./build/$(project)
