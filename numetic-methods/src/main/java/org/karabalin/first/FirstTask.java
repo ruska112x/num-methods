@@ -1,6 +1,8 @@
-package org.karabalin;
+package org.karabalin.first;
 
-public class Main {
+import org.karabalin.Generator;
+
+public class FirstTask {
     public static void main(String[] args) {
         Generator generator = new Generator();
 

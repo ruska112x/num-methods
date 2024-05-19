@@ -1,4 +1,4 @@
-package org.karabalin;
+package org.karabalin.first;
 
 public class Gauss {
 
