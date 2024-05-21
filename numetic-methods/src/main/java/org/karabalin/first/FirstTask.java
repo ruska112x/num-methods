@@ -16,7 +16,7 @@ public class FirstTask {
         double dzeta; // dzeta (division of norm of the error matrix and norm of the inverse matrix a)
         double rNorm; // norm of the incoherence matrix
 
-        int cycles = 8;
+        int cycles = 12;
 
         System.out.println("-".repeat(121));
         System.out.println("|    alpha     |     beta     |   norm A     |  norm A^-1   |    obusl     |   norm err   |    dzeta     |   nevyazka   |");
