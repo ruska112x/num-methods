@@ -9,9 +9,9 @@ public class Generator {
         // out.println(" a:");
         for (int i = 0; i < n; ++i) {
             for (int j = 0; j < n; ++j) {
-                // out.print(a[i][j] + " ");
+                System.out.print(a[i][j] + " ");
             }
-            // out.println();
+            System.out.println();
         }
     }
 
@@ -374,6 +374,7 @@ public class Generator {
                 }
             }
         }
+//        printMatrix(a, n);
         s = this.matrixInfNorm(a, n);
         // out.println(" ||  A  || = " + s);
         double norm_inv = this.matrixInfNorm(a_inv, n);
@@ -389,6 +390,6 @@ public class Generator {
             int var10002 = (int) r[i][i]--;
         }
         s = this.matrixInfNorm(r, n);
-        // out.println(" ||R_gen|| = " + s);
+//        System.out.println(" ||R_gen|| = " + s);
     }
 }

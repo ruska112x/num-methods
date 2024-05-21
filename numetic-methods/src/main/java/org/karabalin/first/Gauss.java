@@ -51,7 +51,7 @@ public class Gauss {
             // Поиск строки с максимальным элементом в текущем столбце
             int maxRow = k;
             for (int i = k + 1; i < n; ++i) {
-                if (Math.abs(a[i][k]) > Math.abs(a[maxRow][k])) {
+                if (Math.abs(a[k][i]) > Math.abs(a[k][maxRow])) {
                     maxRow = i;
                 }
             }

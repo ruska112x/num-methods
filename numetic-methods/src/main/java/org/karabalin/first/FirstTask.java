@@ -6,7 +6,7 @@ public class FirstTask {
     public static void main(String[] args) {
         Generator generator = new Generator();
 
-        int n = 100;
+        int n = 3;
         double alpha; // alpha
         double beta; // beta
         double aNorm; // norm of the matrix a
@@ -30,26 +30,43 @@ public class FirstTask {
             double[][] a = new double[n][n];
             double[][] aInv = new double[n][n];
             generator.myGen(a, aInv, n, alpha, beta, 1, 2, 0, 1);
-            double[][] b = Gauss.inverse(a);
+            double[][] aCopy = new double[n][n];
+            for (int j = 0; j < n; j++) {
+                System.arraycopy(a[j], 0, aCopy[j], 0, n);
+            }
+            double[][] b = Gauss.inverse(aCopy);
 
             aNorm = generator.matrixInfNorm(a, n);
             aInvNorm = generator.matrixInfNorm(aInv, n);
             vA = aNorm * aInvNorm;
             errorNorm = generator.matrixInfNorm(Gauss.matrixDifference(aInv, b), n);
             dzeta = errorNorm / aInvNorm;
-            rNorm = generator.matrixInfNorm(Gauss.matrixDifference(Gauss.matrixMultiplication(b, a), Gauss.createIdentityMatrix(n)), n);
+            double[][] tmp = Gauss.matrixMultiplication(b, a);
+            for (int j = 0; j < tmp.length; j++) {
+                tmp[j][j]--;
+            }
 
-            System.out.printf("| %e | %2.10f | %2.10f | %e | %e | %e | %e | %e |\n", alpha, beta, aNorm, aInvNorm, vA, errorNorm, dzeta, rNorm);
+//            Gauss.printMatrix(a);
+//            Gauss.printMatrix(b);
+//            Gauss.printMatrix(tmp);
+
+            rNorm = generator.matrixInfNorm(tmp, n);
+
+            System.out.printf("| %e | %e | %e | %e | %e | %e | %e | %e |\n", alpha, beta, aNorm, aInvNorm, vA, errorNorm, dzeta, rNorm);
         }
         System.out.println("-".repeat(121));
         for (int i = 0; i < cycles; i++) {
             alpha = 1;
-            beta = Math.pow(10, -(i + 1));
+            beta = Math.pow(10, (i + 1));
 
             double[][] a = new double[n][n];
             double[][] aInv = new double[n][n];
             generator.myGen(a, aInv, n, alpha, beta, 1, 2, 0, 1);
-            double[][] b = Gauss.inverse(a);
+            double[][] aCopy = new double[n][n];
+            for (int j = 0; j < n; j++) {
+                System.arraycopy(a[j], 0, aCopy[j], 0, n);
+            }
+            double[][] b = Gauss.inverse(aCopy);
 
             aNorm = generator.matrixInfNorm(a, n);
             aInvNorm = generator.matrixInfNorm(aInv, n);
@@ -58,7 +75,7 @@ public class FirstTask {
             dzeta = errorNorm / aInvNorm;
             rNorm = generator.matrixInfNorm(Gauss.matrixDifference(Gauss.matrixMultiplication(b, a), Gauss.createIdentityMatrix(n)), n);
 
-            System.out.printf("| %2.10f | %e | %2.10f | %e | %e | %e | %e | %e |\n", alpha, beta, aNorm, aInvNorm, vA, errorNorm, dzeta, rNorm);
+            System.out.printf("| %e | %e | %e | %e | %e | %e | %e | %e |\n", alpha, beta, aNorm, aInvNorm, vA, errorNorm, dzeta, rNorm);
         }
         System.out.println("-".repeat(121));
     }
