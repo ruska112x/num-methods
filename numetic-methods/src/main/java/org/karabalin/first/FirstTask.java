@@ -6,7 +6,7 @@ public class FirstTask {
     public static void main(String[] args) {
         Generator generator = new Generator();
 
-        int n = 3;
+        int n = 100;
         double alpha; // alpha
         double beta; // beta
         double aNorm; // norm of the matrix a
