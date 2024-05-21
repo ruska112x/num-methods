@@ -6,7 +6,7 @@ import java.util.OptionalDouble;
 public class MinimumResiduals {
     public static double[] multiplyMatrixAndVector(double[][] m, double[] v) {
         double[] r = new double[v.length];
-        for (int i = 0; i < v.length; i++) {
+        for (int i = 0; i < m.length; i++) {
             for (int j = 0; j < v.length; j++) {
                 r[i] += m[i][j] * v[j];
             }
@@ -23,12 +23,20 @@ public class MinimumResiduals {
     }
 
     public static double vectorInfNorm(double[] v) {
-        OptionalDouble optionalDouble =  Arrays.stream(v).map(Math::abs).max();
+        OptionalDouble optionalDouble = Arrays.stream(v).map(Math::abs).max();
         if (optionalDouble.isPresent()) {
             return optionalDouble.getAsDouble();
         } else {
             return -1;
         }
+    }
+
+    public static double[] vectorDifference(double[] a, double[] b) {
+        double[] r = new double[a.length];
+        for (int i = 0; i < a.length; i++) {
+            r[i] = a[i] - b[i];
+        }
+        return r;
     }
 
     public static double matrixInfNorm(double[][] m) {
